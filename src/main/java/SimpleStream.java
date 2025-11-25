@@ -12,7 +12,9 @@ import java.util.concurrent.CompletionStage;
 public class SimpleStream {
 
     public static void main(String[] args) {
-        Source<Integer, NotUsed> source = Source.range(1,10);
+        //Source<Integer, NotUsed> source = Source.range(1,10);
+
+        Source<Integer, NotUsed> source = Source.single(17);
 
         Flow<Integer,String, NotUsed> flow = Flow.of(Integer.class).map(value -> "The next value is " + value);
 
