@@ -20,6 +20,7 @@ public class SimpleStream {
         Source<String, NotUsed> source = Source.from(names);
 
         Source<Double, NotUsed> piSource = Source.repeat(3.141592654);
+        Source<String, NotUsed> repeatNameSource = Source.cycle(names::iterator);
 
         Flow<Integer,String, NotUsed> flow = Flow.of(Integer.class).map(value -> "The next value is " + value);
         Flow<String,String, NotUsed> stringFlow = Flow.of(String.class).map(value -> "The next value is " + value);
@@ -28,7 +29,7 @@ public class SimpleStream {
             System.out.println(value);
         }) ;
 
-        RunnableGraph<NotUsed> graph = piSource.via(doubleFlow).to(sink);
+        RunnableGraph<NotUsed> graph = repeatNameSource.via(stringFlow).to(sink);
 
         ActorSystem actorSystem = ActorSystem.create(Behaviors.empty(), "actorSystem");
 
