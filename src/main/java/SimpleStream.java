@@ -19,13 +19,16 @@ public class SimpleStream {
 
         Source<String, NotUsed> source = Source.from(names);
 
+        Source<Double, NotUsed> piSource = Source.repeat(3.141592654);
+
         Flow<Integer,String, NotUsed> flow = Flow.of(Integer.class).map(value -> "The next value is " + value);
         Flow<String,String, NotUsed> stringFlow = Flow.of(String.class).map(value -> "The next value is " + value);
+        Flow<Double,String, NotUsed> doubleFlow = Flow.of(Double.class).map(value -> "The next value is " + value);
         Sink<String, CompletionStage<Done>> sink = Sink.foreach(value -> {
             System.out.println(value);
         }) ;
 
-        RunnableGraph<NotUsed> graph = source.via(stringFlow).to(sink);
+        RunnableGraph<NotUsed> graph = piSource.via(doubleFlow).to(sink);
 
         ActorSystem actorSystem = ActorSystem.create(Behaviors.empty(), "actorSystem");
 
