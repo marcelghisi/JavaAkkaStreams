@@ -33,6 +33,7 @@ public class SimpleStream {
         Sink<String, CompletionStage<Done>> sink = Sink.foreach(value -> {
             System.out.println(value);
         }) ;
+        Sink<String, CompletionStage<Done>> ignoreSInk = Sink.ignore();
 
         RunnableGraph<NotUsed> graph = infiniteRangeSource.via(flow).to(sink);
 
